@@ -37,23 +37,39 @@ function game() {
     console.log(round);
 
     if (round === "You Win! Paper Beats Rock" || 
-    x === "You Win! Rock Beats Scissors" || 
-    x ===  "You Win! Scissors Beats Paper") {
+    round === "You Win! Rock Beats Scissors" || 
+    round ===  "You Win! Scissors Beats Paper") {
       playerScore++;
     }else if (round === "You Lose! Paper Beats Rock" || 
-    x ===  "You Lose! Rock Beats Scissors" || 
-    x ===  "You Lose! Scissors Beats Paper") {
+    round ===  "You Lose! Rock Beats Scissors" || 
+    round ===  "You Lose! Scissors Beats Paper") {
       computerScore++;
     }
-    console.log(`player ${playerScore}`)
-    console.log(`computer ${computerScore}`)
+    console.log(`player ${playerScore}`);
+    console.log(`computer ${computerScore}`);
   }
 
   if (playerScore === computerScore) {
-    return "Tie Game BABY"
+    return "Game Over: Tie";
   } else if (playerScore > computerScore) {
-    return "You Win the Game!"
+    return "Game Over: You Win!";
   } else {
-    return "Computers TAKE OVER THE WORLD"
+    return "Game Over: Computer Wins";
+  }
+}
+
+
+
+function repeatGame(){
+  let i = 1
+  while (i){
+    let Ready = prompt("Ready?", "yes/no");
+    if (Ready === "no"){
+      i = 0;
+      break;
+    }
+
+    let game = game();
+    console.log(game);
   }
 }
