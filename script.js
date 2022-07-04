@@ -1,4 +1,8 @@
 
+let playerScore = 0;
+let computerScore = 0;
+
+
 function computerPlay () {
   x = Math.floor(Math.random() * 3) + 1 
   return (x === 1) ? "rock":
@@ -6,70 +10,56 @@ function computerPlay () {
   "scissors";
 }
 
+const result = document.querySelector('#round')
+const score = document.querySelector('#score')
+
 function playRound (playerSelector, computerSelector) {
-
-  let player = playerSelector.toLowerCase();
-
-  if (player === "paper" && computerSelector === "rock") {
-  return "You Win! Paper Beats Rock";
-  }else if (player === "paper" && computerSelector === "scissors") {
+  if (playerSelector === "paper" && computerSelector === "rock") {
+    playerScore++;
+    return "You Win! Paper Beats Rock";
+  }else if (playerSelector === "paper" && computerSelector === "scissors") {
+    computerScore++
     return "You Lose! Scissors Beats Paper";
-  }else if (player === "rock" && computerSelector === "scissors") {
+  }else if (playerSelector === "rock" && computerSelector === "scissors") {
+    playerScore++
     return "You Win! Rock Beats Scissors";
-  }else if (player === "rock" && computerSelector === "paper") {
+  }else if (playerSelector === "rock" && computerSelector === "paper") {
+    computerScore++
     return "You Lose! Paper Beats Rock";
-  }else if (player === "scissors" && computerSelector === "paper") {
+  }else if (playerSelector === "scissors" && computerSelector === "paper") {
+    playerScore++
     return "You Win! Scissors Beats Paper";
-  }else if (player === "scissors" &&  computerSelector === "rock") {
+  }else if (playerSelector === "scissors" &&  computerSelector === "rock") {
+    computerScore++
     return "You Lose! Rock Beats Scissors";
-  }else if (player === computerSelector) {
+  }else if (playerSelector === computerSelector) {
     return "Draw!";
   }
 }
 
+let buttons = document.querySelectorAll("button")
 
-function game() {
-  let playerScore = 0;
-  let computerScore = 0;
-
-  for (let i = 0; i < 5; i++) {  
-    let round = playRound(prompt("Rock, Paper, or Scissors?"), computerPlay());
-    console.log(round);
-
-    if (round === "You Win! Paper Beats Rock" || 
-    round === "You Win! Rock Beats Scissors" || 
-    round ===  "You Win! Scissors Beats Paper") {
-      playerScore++;
-    }else if (round === "You Lose! Paper Beats Rock" || 
-    round ===  "You Lose! Rock Beats Scissors" || 
-    round ===  "You Lose! Scissors Beats Paper") {
-      computerScore++;
-    }
-    console.log(`player ${playerScore}`);
-    console.log(`computer ${computerScore}`);
-  }
-
-  if (playerScore === computerScore) {
-    return "Game Over: Tie";
-  } else if (playerScore > computerScore) {
-    return "Game Over: You Win!";
-  } else {
-    return "Game Over: Computer Wins";
+function endGame() {
+  if (playerScore === 5){
+    result.textContent =  "GAME OVER YOU WIN"
+    computerScore = 0 
+    playerScore = 0 
+  }  else if (computerScore === 5) {
+    result.textContent =  "GAME OVER YOU LOSE"
+    computerScore = 0 
+    playerScore = 0 
   }
 }
 
 
-
-function repeatGame(){
-  let i = 1
-  while (i){
-    let Ready = prompt("Ready?", "yes/no");
-    if (Ready === "no"){
-      i = 0;
-      break;
-    }
-
-    let game = game();
-    console.log(game);
-  }
+function turn(e) {
+  result.textContent =  playRound(this.id, computerPlay())
+  score.textContent =  `Player: ${playerScore}
+  Computer: ${computerScore}`
+  endGame();
 }
+
+buttons.forEach((button) => {
+  button.addEventListener('click', turn)
+  })
+
